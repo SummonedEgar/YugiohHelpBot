@@ -16,7 +16,6 @@ from telegram.utils.helpers import escape_markdown
 from bs4 import BeautifulSoup
 from functools import wraps
 
-
 """Functions"""
 def send_typing_action(func):
     """Sends typing action while processing func command."""
@@ -33,7 +32,8 @@ def restricted(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
         user_id = update.effective_user.id
-        if user_id not in LIST_OF_ADMINS:
+
+        if user_id != int(LIST_OF_ADMINS):
             print("Unauthorized access denied for {}.".format(user_id))
             return
         return func(update, context, *args, **kwargs)
@@ -153,9 +153,9 @@ with open('url_cardObtain.txt') as f:
 with open('bottoken.txt') as f:
     token = f.readline().strip()
 with open('admin.txt') as f:
-    content = f.read()
-    global LIST_OF_ADMINS
-    LIST_OF_ADMINS = content.split("\n")
+    LIST_OF_ADMINS = f.readline().strip()
+
+
 
 def start(update, context):
     reply_keyboard = [['Boy', 'Girl', 'Other']]
@@ -206,14 +206,13 @@ My father also gave me some other strong powers:
 
     update.message.reply_text(help_msg)
 
-@restriced
+@restricted
 def ip(update,context):
 
-
     hostname = socket.gethostname()
-    IPAddr = socket.gethostbyname(hostname)
+    IPAddr = requests.get('https://api.ipify.org').text
     update.message.reply_text("Your Computer Name is:" + hostname + "\nYour Computer IP Address is:" + IPAddr)
-    
+
 @send_typing_action
 def archetypedl(update, context):
     """Search Cards in Archetype"""
@@ -605,6 +604,7 @@ def main():
     dp.add_handler(CommandHandler("guide", guide))
     dp.add_handler(CommandHandler("tierlist", tierlist))
     #dp.add_handler(CommandHandler("character", character))
+    dp.add_handler(CommandHandler("ip", ip))
 
     card_handler = ConversationHandler(
         conversation_timeout=90,
