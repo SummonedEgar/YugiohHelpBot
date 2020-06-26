@@ -6,6 +6,7 @@ import json
 import sys
 import dryscrape
 import re
+import socket
 
 from uuid import uuid4
 import telegram
@@ -27,6 +28,16 @@ def send_typing_action(func):
         return func(update, context,  *args, **kwargs)
 
     return command_func
+
+def restricted(func):
+    @wraps(func)
+    def wrapped(update, context, *args, **kwargs):
+        user_id = update.effective_user.id
+        if user_id not in LIST_OF_ADMINS:
+            print("Unauthorized access denied for {}.".format(user_id))
+            return
+        return func(update, context, *args, **kwargs)
+    return wrapped
 
 def markdown_translate(msg):
 
@@ -141,7 +152,10 @@ with open('url_cardObtain.txt') as f:
     url_cardObtain = f.readline().strip()
 with open('bottoken.txt') as f:
     token = f.readline().strip()
-
+with open('admin.txt') as f:
+    content = f.read()
+    global LIST_OF_ADMINS
+    LIST_OF_ADMINS = content.split("\n")
 
 def start(update, context):
     reply_keyboard = [['Boy', 'Girl', 'Other']]
@@ -192,6 +206,14 @@ My father also gave me some other strong powers:
 
     update.message.reply_text(help_msg)
 
+@restriced
+def ip(update,context):
+
+
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
+    update.message.reply_text("Your Computer Name is:" + hostname + "\nYour Computer IP Address is:" + IPAddr)
+    
 @send_typing_action
 def archetypedl(update, context):
     """Search Cards in Archetype"""
