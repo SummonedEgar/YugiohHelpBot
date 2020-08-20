@@ -127,12 +127,14 @@ def update_links ():
 
         if(result_search != None):
             f1 = open("url_search.txt", "w")
+            global url_search
             url_search = "http://www.duellinksmeta.com/data-hashed/search" + result_search.group(1) + ".json"
             f1.write(url_search)
             f1.close()
 
         if(result_cardobtain != None):
             f2 = open("url_cardObtain.txt", "w")
+            global url_cardObtain
             url_cardObtain = "http://www.duellinksmeta.com/data-hashed/cardObtain" + result_cardobtain.group(1) + ".json"
             f2.write(url_cardObtain)
             f2.close()
@@ -436,7 +438,7 @@ def character(update, context):
 
     url= url_search
     page = requests.get(url)
-    if page.status_code != 200:
+    if page.status_code == 404:
         update.message.reply_text("Updating links... Try again in a minute")
         update_links()
         return ConversationHandler.END
@@ -506,7 +508,7 @@ def guide(update, context):
 
     url= url_search
     page = requests.get(url)
-    if page.status_code != 200:
+    if page.status_code == 404:
         update.message.reply_text("Updating links... Try again in a minute")
         update_links()
     else:
