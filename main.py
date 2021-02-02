@@ -25,6 +25,7 @@ def send_typing_action(func):
     def command_func(update, context, *args, **kwargs):
         logger.info("%s - Message from %s was %s",update.message.date, update.message.from_user.username, update.message.text)
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
+        lang = "it"
         return func(update, context,  *args, **kwargs)
 
     return command_func
@@ -230,7 +231,7 @@ def archetypedl(update, context):
     else :
         user_says = update.message.text
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=" + user_says + "&format=Duel%20Links" + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=" + user_says + "&format=Duel%20Links" + "&language=" + lang
 
     cards = jurl(url)
     if cards == 0 :
@@ -255,7 +256,7 @@ def archetype(update, context):
     else :
         user_says = update.message.text
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=" + user_says + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=" + user_says + "&language=" + lang
 
     cards = jurl(url)
     if cards == 0 :
@@ -275,7 +276,7 @@ def searchdl(update, context):
         update.message.reply_text("You didn't send me what to search!")
         return 1
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?format=Duel%20Links" + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?format=Duel%20Links" + "&language=" + lang
     cards = jurl(url)
     list_matches=[]
 
@@ -303,7 +304,7 @@ def search(update, context):
         update.message.reply_text("You didn't send me what to search!")
         return 1
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?" + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?" + "&language=" + lang
     cards = jurl(url)
     list_matches=[]
 
@@ -337,7 +338,7 @@ def obtaindl(update, context):
     else :
         user_says = update.message.text
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says + "&format=Duel%20Links" + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says + "&format=Duel%20Links" + "&language=" + lang
 
     page = requests.get(url)
     if page.status_code != 200 :
@@ -372,7 +373,7 @@ def obtain(update, context):
     else :
         user_says = update.message.text
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says + "&language=" + lang
 
     page = requests.get(url)
     if page.status_code != 200 :
@@ -398,7 +399,7 @@ def card(update, context):
     else :
         user_says = update.message.text
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=" + user_says + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=" + user_says + "&language=" + lang
     page = requests.get(url)
 
     if page.status_code != 200 :
@@ -528,7 +529,7 @@ def guide(update, context):
 def inlinequery(update, context):
     """Handle the inline query."""
     query = update.inline_query.query
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=" + query + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=" + query + "&language=" + lang
     page = requests.get(url)
     if page.status_code == 200:
         card_src = json.loads(page.text)
@@ -559,12 +560,12 @@ def replies(update, context):
     user_says = update.message.text
     if (len(user_says)<2):
         return 1
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says + "&language=" + context.chat_data[lang]
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says + "&language=" + lang
 
     page = requests.get(url)
     if page.status_code != 200 :
 
-        url="https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=" + user_says + "&language=" + context.chat_data[lang]
+        url="https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=" + user_says + "&language=" + lang
         page = requests.get(url)
         if page.status_code != 200 :
             """Probably wasn't meant for me"""
@@ -586,7 +587,7 @@ def replies(update, context):
 
 def change_language(update, context):
     context.chat_data.clear()
-    context.chat_data[lang] = update.message.text
+    context.chat_data = update.message.text
 
 def main():
     """Start the bot."""
@@ -594,7 +595,7 @@ def main():
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
     updater = Updater(token, use_context=True)
-    context.chat_data.setdefault(lang, "it")
+
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
     # on different commands - answer in Telegram
