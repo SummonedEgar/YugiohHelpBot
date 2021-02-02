@@ -597,7 +597,7 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    dp.chat_data = "it"
+    dp.chat_data[lang] = "it"
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("language", change_language))
