@@ -25,6 +25,9 @@ def send_typing_action(func):
     def command_func(update, context, *args, **kwargs):
         logger.info("%s - Message from %s was %s",update.message.date, update.message.from_user.username, update.message.text)
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
+        languages = ["fr","de","it","pt"]
+        if(context.chat_data[lang] not in languages):
+            context.chat_data[lang] = "it"
         return func(update, context,  *args, **kwargs)
 
     return command_func
@@ -597,7 +600,6 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    dp.chat_data[lang] = "it"
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("language", change_language))
