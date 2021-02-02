@@ -584,7 +584,7 @@ def replies(update, context):
         caption = caption_gen(card_exact['data'][0])
         context.bot.send_photo(chat_id=update.message.chat_id, photo=card_exact['data'][0]['card_images'][0]['image_url'], caption=caption, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
-def change_language():
+def change_language(update, context):
     context.chat_data.clear()
     context.chat_data[lang] = update.message.text
 
@@ -594,10 +594,10 @@ def main():
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
     updater = Updater(token, use_context=True)
-    context.chat_data[lang] = "it"
+
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-
+    dp.chat_data = "it"
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("language", change_language))
