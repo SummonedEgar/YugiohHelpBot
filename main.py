@@ -25,9 +25,6 @@ def send_typing_action(func):
     def command_func(update, context, *args, **kwargs):
         logger.info("%s - Message from %s was %s",update.message.date, update.message.from_user.username, update.message.text)
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
-        languages = ["fr","de","it","pt"]
-        if(context.chat_data[lang] not in languages):
-            context.chat_data[lang] = "it"
         return func(update, context,  *args, **kwargs)
 
     return command_func
@@ -597,7 +594,7 @@ def main():
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
     updater = Updater(token, use_context=True)
-
+    context.chat_data.setdefault(lang, "it")
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
     # on different commands - answer in Telegram
