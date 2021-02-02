@@ -25,7 +25,8 @@ def send_typing_action(func):
     def command_func(update, context, *args, **kwargs):
         logger.info("%s - Message from %s was %s",update.message.date, update.message.from_user.username, update.message.text)
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
-        global lang = "it"
+        global lang
+        lang = "it"
         return func(update, context,  *args, **kwargs)
 
     return command_func
