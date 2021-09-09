@@ -477,18 +477,18 @@ def tierlist(update, context):
     page = requests.get("https://www.duellinksmeta.com/tier-list/")
     soup = BeautifulSoup(page.content, 'html.parser')
 
-    active = soup.find(class_="tab-pane fade show active")
+    active = soup.find(class_="tabbed-container svelte-umfxo")
 
     #tiers = active.find_all(class_="decktype-display")
     #containers = active.contents
     #tiers = containers[1].contents
 
-    tiers = active.find_all("h4")
+    tiers = active.find_all("div", class_="tier-img-container mt-2 mb-3 svelte-a5gksq")
     reply = ""
     for i,name in enumerate(tiers):
-
-        reply += "•" + tiers[i].get_text() + ":\n" + "\n"
-        names = tiers[i].find_next_sibling(class_="row button-row").find_all(class_="decktype-display")
+        nth_tier = tiers[i].find("img", alt= True)
+        reply += "•" + nth_tier['alt'] + ":\n" + "\n"
+        names = tiers[i].find_next_sibling(class_="deck-button-container columns is-multiline is-variable is-1 svelte-9u8emk scrollbar").find_all(class_="label svelte-1pysqv4")
         #names = tiers[i].find_all(class_="decktype-display")
 
         for index, val in enumerate(names):
