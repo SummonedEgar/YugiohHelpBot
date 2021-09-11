@@ -428,6 +428,7 @@ def card(update, context):
 @send_typing_action
 def character(update, context):
     """"Returns links to dlm website for characters"""
+    characters = {'Bronk Stone': 'https://www.duellinksmeta.com/characters/Bronk%20Stone/','Kite Tenjo':'https://www.duellinksmeta.com/characters/Kite%20Tenjo/','Quattro' : 'https://www.duellinksmeta.com/characters/Quattro/','Reginald "Shark" Kastle':'https://www.duellinksmeta.com/characters/Reginald%20%22Shark%22%20Kastle/','Tori Meadows':'https://www.duellinksmeta.com/characters/Tori%20Meadows/','Trey':'https://www.duellinksmeta.com/characters/Trey/','Yuma and Astral':'https://www.duellinksmeta.com/characters/Yuma%20and%20Astral/','Aigami':'https://www.duellinksmeta.com/characters/Aigami/','Joey Wheeler (DSOD)': 'https://www.duellinksmeta.com/characters/Joey%20Wheeler%20(DSOD)/', 'Mokuba Kaiba (DSOD)': 'https://www.duellinksmeta.com/characters/Mokuba%20Kaiba%20(DSOD)/', 'Scud': 'https://www.duellinksmeta.com/characters/Scud/', 'Sera': 'https://www.duellinksmeta.com/characters/Sera/', 'Seto Kaiba (DSOD)': 'https://www.duellinksmeta.com/characters/Seto%20Kaiba%20(DSOD)/','Téa Gardner (DSOD)': 'https://www.duellinksmeta.com/characters/T%C3%A9a%20Gardner%20(DSOD)/','Yugi Muto (DSOD)': 'https://www.duellinksmeta.com/characters/Yugi%20Muto%20(DSOD)/', 'Akiza Izinski': 'https://www.duellinksmeta.com/characters/Akiza%20Izinski/','Antinomy' : 'https://www.duellinksmeta.com/characters/Antinomy/', 'Carly Carmine': 'https://www.duellinksmeta.com/characters/Carly%20Carmine/', 'Crow Hogan': 'https://www.duellinksmeta.com/characters/Crow%20Hogan/', 'Dark Signer Carly Carmine': 'https://www.duellinksmeta.com/characters/Dark%20Signer%20Carly%20Carmine/', 'Dark Signer Kalin Kessler': 'https://www.duellinksmeta.com/characters/Dark%20Signer%20Kalin%20Kessler/', 'Dark Signer Rex Goodwin': 'https://www.duellinksmeta.com/characters/Dark%20Signer%20Rex%20Goodwin/', 'Jack Atlas': 'https://www.duellinksmeta.com/characters/Jack%20Atlas/','Kalin Kessler' : 'https://www.duellinksmeta.com/characters/Kalin%20Kessler/', 'Leo': 'https://www.duellinksmeta.com/characters/Leo/', 'Luna': 'https://www.duellinksmeta.com/characters/Luna/', 'Officer Tetsu Trudge': 'https://www.duellinksmeta.com/characters/Officer%20Tetsu%20Trudge/','Primo' : 'https://www.duellinksmeta.com/characters/Primo/' ,'Yusei Fudo': 'https://www.duellinksmeta.com/characters/Yusei%20Fudo/', 'Alexis Rhodes': 'https://www.duellinksmeta.com/characters/Alexis%20Rhodes/', 'Aster Phoenix': 'https://www.duellinksmeta.com/characters/Aster%20Phoenix/','Axel Brodie' : 'https://www.duellinksmeta.com/characters/Axel%20Brodie/', 'Bastion Misawa': 'https://www.duellinksmeta.com/characters/Bastion%20Misawa/', 'Blair Flannigan': 'https://www.duellinksmeta.com/characters/Blair%20Flannigan/', 'Chazz Princeton': 'https://www.duellinksmeta.com/characters/Chazz%20Princeton/', 'Dr. Vellian Crowler': 'https://www.duellinksmeta.com/characters/Dr.%20Vellian%20Crowler/', 'Jaden Yuki': 'https://www.duellinksmeta.com/characters/Jaden%20Yuki/', 'Jaden/Yubel': 'https://www.duellinksmeta.com/characters/Jaden%2FYubel/', 'Jesse Anderson': 'https://www.duellinksmeta.com/characters/Jesse%20Anderson/', 'Sartorius Kumar': 'https://www.duellinksmeta.com/characters/Sartorius%20Kumar/','Supreme King Jaden' : 'https://www.duellinksmeta.com/characters/Supreme%20King%20Jaden/', 'Syrus Truesdale': 'https://www.duellinksmeta.com/characters/Syrus%20Truesdale/', 'Tyranno Hassleberry': 'https://www.duellinksmeta.com/characters/Tyranno%20Hassleberry/', 'Yubel': 'https://www.duellinksmeta.com/characters/Yubel/', 'Zane Truesdale': 'https://www.duellinksmeta.com/characters/Zane%20Truesdale/', 'Arkana': 'https://www.duellinksmeta.com/characters/Arkana/', 'Bandit Keith': 'https://www.duellinksmeta.com/characters/Bandit%20Keith/', 'Bonz': 'https://www.duellinksmeta.com/characters/Bonz/','Duke Devlin': 'https://www.duellinksmeta.com/characters/Duke%20Devlin/', 'Espa Roba': 'https://www.duellinksmeta.com/characters/Espa%20Roba/', 'Ishizu Ishtar': 'https://www.duellinksmeta.com/characters/Ishizu%20Ishtar/', 'Joey Wheeler': 'https://www.duellinksmeta.com/characters/Joey%20Wheeler/', 'Lumis and Umbra': 'https://www.duellinksmeta.com/characters/Lumis%20and%20Umbra/', 'Mai Valentine': 'https://www.duellinksmeta.com/characters/Mai%20Valentine/', 'Mako Tsunami': 'https://www.duellinksmeta.com/characters/Mako%20Tsunami/', 'Maximillion Pegasus': 'https://www.duellinksmeta.com/characters/Maximillion%20Pegasus/', 'Mokuba Kaiba': 'https://www.duellinksmeta.com/characters/Mokuba%20Kaiba/', 'Odion': 'https://www.duellinksmeta.com/characters/Odion/', 'Paradox Brothers': 'https://www.duellinksmeta.com/characters/Paradox%20Brothers/', 'Rex Raptor': 'https://www.duellinksmeta.com/characters/Rex%20Raptor/', 'Seto Kaiba': 'https://www.duellinksmeta.com/characters/Seto%20Kaiba/', 'Tea Gardner': 'https://www.duellinksmeta.com/characters/T%C3%A9a%20Gardner/', 'Tristan Taylor': 'https://www.duellinksmeta.com/characters/Tristan%20Taylor/', 'Weevil Underwood': 'https://www.duellinksmeta.com/characters/Weevil%20Underwood/', 'Yami Bakura': 'https://www.duellinksmeta.com/characters/Yami%20Bakura/', 'Yami Marik': 'https://www.duellinksmeta.com/characters/Yami%20Marik/', 'Yami Yugi': 'https://www.duellinksmeta.com/characters/Yami%20Yugi/', 'Yugi Muto': 'https://www.duellinksmeta.com/characters/Yugi%20Muto/'}
 
     if context.args != None :
         if context.args == []:
@@ -439,36 +440,36 @@ def character(update, context):
     else :
         user_says = update.message.text
 
-    url= url_search
-    page = requests.get(url)
-    if page.status_code == 404:
-        update.message.reply_text("Updating links... Try again in a minute")
-        update_links()
-        return ConversationHandler.END
-    else:
-        page.encoding = "utf-8"
-        articles = json.loads(page.text)
-        res = []
-        for x in articles:
-            if(x['category']== "farming"):
-                if (user_says.lower() in x['title'].lower()):
-                    res.append("https://www.duellinksmeta.com" + x['url'])
-        if(len(res)==0):
-            update.message.reply_text("Can't find character!")
-        elif(len(res) == 1):
-            page = requests.get(res[0])
-            if page.status_code == 200:
-                soup = BeautifulSoup(page.content, 'html.parser')
-                info = soup.find(attrs={"name": "generalinformation"})
-                container = info.find_parent("div")
-                list = container.find_next_sibling("ul").find_next_sibling("ul")
-                message = list.get_text() + "\n" + res[0]
-                update.message.reply_text(message)
+    keys = [value for key, value in characters.items() if user_says.lower() in key.lower()]
+    if (len(keys == 0)):
+        update.message.reply_text("Can't find character!")
+
+    message = ""
+
+    if (len(keys) == 1) :
+
+        url = keys[0]
+        page = requests.get(url)
+        if page.status_code == 404:
+            update.message.reply_text("Uhm... Something isn't working!")
+            #update_links()
+            return ConversationHandler.END
         else:
-            message = ""
-            for i in range(len(res)):
-                message += res[i] + "\n"
-            update.message.reply_text("Did you mean: \n" + message)
+            page.encoding = "utf-8"
+
+            soup = BeautifulSoup(page.content, 'html.parser')
+
+            active = soup.find(class_ ="column is-half")
+            items = active.find_all("li")
+            for i,item in enumerate(items):
+                if(items[i].get_text().startswith("How to") == 0):
+                    message += items[i].get_text() + "\n"
+            update.message.reply_text(message)
+            return ConversationHandler.END
+    else :
+        for i in range(len(keys)):
+            message += keys[i] + "\n"
+        update.message.reply_text("Did you mean: \n" + message)
         return ConversationHandler.END
 
 @send_typing_action
