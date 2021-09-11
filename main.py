@@ -464,7 +464,7 @@ def character(update, context):
             for i,item in enumerate(items):
                 if(items[i].get_text().startswith("How to") == 0):
                     message += items[i].get_text() + "\n"
-            update.message.reply_text(message)
+            update.message.reply_text(message + keys[0])
             return ConversationHandler.END
     else :
         for i in range(len(keys)):
