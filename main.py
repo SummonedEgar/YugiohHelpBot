@@ -143,16 +143,16 @@ with open('/home/pi/YugiohHelpBot/admin.txt') as f:
 with open('/home/pi/YugiohHelpBot/cards.json') as f:
     cards_dl = json.load(f)
 
-page = requests.get("https://www.duellinksmeta.com/characters/")
-soup = BeautifulSoup(page.content, 'html.parser')
-characters_divs = soup.find_all(class_ ="label svelte-1pysqv4")
-urls = soup.find_all(class_ ="img-button svelte-1pysqv4")
+page_ch = requests.get("https://www.duellinksmeta.com/characters/")
+soup_ch = BeautifulSoup(page_ch.content, 'html.parser')
+characters_divs = soup_ch.find_all(class_ ="label svelte-1pysqv4")
+links = soup_ch.find_all(class_ ="img-button svelte-1pysqv4")
 characters_names = []
 characters_urls = []
-for character in characters_divs:
-    characters_names.append(character.get_text())
-for url in urls:
-    characters_urls.append("https://www.duellinksmeta.com" + url.get('href'))
+for character_div in characters_divs:
+    characters_names.append(character_div.get_text())
+for link in links:
+    characters_urls.append("https://www.duellinksmeta.com" + link.get('href'))
 
 characters = dict(zip(characters_names, characters_urls))
 
