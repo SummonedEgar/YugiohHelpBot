@@ -511,7 +511,7 @@ def guide(update, context):
         msg = ""
         for x in articles:
             if (user_says.lower() in x['title'].lower()):
-                msg += "https://www.duellinksmeta.com" + x['url'] + "\n"
+                msg += "https://www.duellinksmeta.com/articles" + x['url'] + "\n"
         if(len(msg)==0):
             update.message.reply_text("Can't find a guide!")
         else:
