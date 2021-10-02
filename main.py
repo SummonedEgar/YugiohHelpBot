@@ -117,7 +117,7 @@ def update_links ():
     while len(json.loads(page.text))>1:
         page = requests.get(url + str(page_num))
         page.encoding = "utf-8"
-        cards += json.loads(page.text)
+        cards_dl += json.loads(page.text)
         page_num += 1
 
     with open("cards.json", "w") as outfile:
@@ -338,7 +338,7 @@ def obtaindl(update, context):
             card = json.loads(page.text)
             name = card['data'][0]['name']
             msg = ""
-            for element in cards:
+            for element in cards_dl:
                 if (element['name'] == name):
                     for source in element['obtain']:
                         #print(source['name'] + "\n")
