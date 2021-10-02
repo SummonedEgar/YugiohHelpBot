@@ -444,7 +444,7 @@ def character(update, context):
     keys = [value for key, value in characters.items() if user_says.lower() in key.lower()]
     if (len(keys) == 0):
         update.message.reply_text("Can't find character!")
-
+        return ConversationHandler.END
     message = ""
 
     if (len(keys) == 1) :
