@@ -333,7 +333,7 @@ def obtaindl(update, context):
 
         page = requests.get(url)
         if page.status_code != 200 :
-
+            update.message.reply_text("Some servers might be down")
         else :
             card = json.loads(page.text)
             name = card['data'][0]['name']
