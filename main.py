@@ -107,40 +107,21 @@ def jurl(url):
         return json.loads(page.text)
 
 def update_links ():
-    dryscrape.start_xvfb()
-    my_url = "https://www.duellinksmeta.com/"
-    session = dryscrape.Session()
-    session.visit(my_url)
-    response = session.source()
-    soup = BeautifulSoup(response,"html.parser")
-    sources=soup.findAll('script',{"src":True})
-    urls = []
-    sub = "cloudfront"
+    url = "https://www.duellinksmeta.com/api/v1/cards?search=&cardSort=release&limit=2000&page="
+    global cards_dl
+    cards_dl = []
+    page_num = 1
+    page = requests.get(url + str(page_num))
+    page.encoding = "utf-8"
 
-    for source in sources:
-     urls.append(source['src'])
-    urls = [s for s in urls if sub in s]
-    for url in urls:
+    while len(json.loads(page.text))>1:
+        page = requests.get(url + str(page_num))
+        page.encoding = "utf-8"
+        cards += json.loads(page.text)
+        page_num += 1
 
-        page = requests.get(url)
-        s = page.text
-
-        result_search = re.search(r'data-hashed/search(.*).json', s)
-        result_cardobtain = re.search(r'data-hashed/cardObtain(.*).json', s)
-
-        if(result_search != None):
-            f1 = open("/home/pi/YugiohHelpBot/url_search.txt", "w")
-            global url_search
-            url_search = "/home/pi/YugiohHelpBot/http://www.duellinksmeta.com/data-hashed/search" + result_search.group(1) + ".json"
-            f1.write(url_search)
-            f1.close()
-
-        if(result_cardobtain != None):
-            f2 = open("url_cardObtain.txt", "w")
-            global url_cardObtain
-            url_cardObtain = "http://www.duellinksmeta.com/data-hashed/cardObtain" + result_cardobtain.group(1) + ".json"
-            f2.write(url_cardObtain)
-            f2.close()
+    with open("cards.json", "w") as outfile:
+        json.dump(cards, outfile)
 
 """Commands"""
 
@@ -159,7 +140,8 @@ with open('/home/pi/YugiohHelpBot/bottoken.txt') as f:
     token = f.readline().strip()
 with open('/home/pi/YugiohHelpBot/admin.txt') as f:
     LIST_OF_ADMINS = f.readline().strip()
-
+with open('/home/pi/YugiohHelpBot/cards.json') as f:
+    cards_dl = json.load(f)
 
 
 def start(update, context):
@@ -339,26 +321,33 @@ def obtaindl(update, context):
     else :
         user_says = update.message.text
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says + "&format=Duel%20Links" + "&language=" + lang
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says.lower() + "&format=Duel%20Links" + "&language=" + lang
 
     page = requests.get(url)
     if page.status_code != 200 :
         update.message.reply_text("Card probably isn't in Duel Links, try /obtain")
     else :
         card = json.loads(page.text)
-        name = card['data'][0]['name']
-        url = url_cardObtain
-        page = requests.get(url, timeout= 3)
-        if page.status_code != 200:
-            update.message.reply_text("Updating links... Try again in a minute")
-            update_links()
-            return ConversationHandler.END
-        page.encoding = "utf-8"
-        cards = json.loads(page.text)
-        for element in cards:
-            if (element['name']== name):
-                update.message.reply_text("Rarity: " + element['rarity'] + "\n" + '\n'.join(element['how']))
-                break
+        id = card['data'][0]['id']
+        url="https://db.ygoprodeck.com/api/v7/cardinfo.php?id=" + str(id) + "&format=Duel%20Links"
+
+        page = requests.get(url)
+        if page.status_code != 200 :
+            update.message.reply_text("ERROR")
+        else :
+            card = json.loads(page.text)
+            name = card['data'][0]['name']
+            msg = ""
+            for element in cards:
+                if (element['name'] == name):
+                    for source in element['obtain']:
+                        #print(source['name'] + "\n")
+                        msg += source['source']['name']
+                        if source.get("subSource") is not None:
+                            msg += source['subSource'])
+                        msg += "\n"
+                    update.message.reply_text("Rarity: " + element['rarity'] + "\n" + msg))
+                    break
     return ConversationHandler.END
 
 @send_typing_action
@@ -463,7 +452,7 @@ def character(update, context):
             items = active.find_all("li")
             for i,item in enumerate(items):
                 if(items[i].get_text().startswith("How to") == 0):
-                    message += items[i].get_text() + "\n"
+                    message += "•" + items[i].get_text() + "\n"
             update.message.reply_text(message + keys[0])
             return ConversationHandler.END
     else :
