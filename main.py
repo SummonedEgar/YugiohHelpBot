@@ -344,7 +344,7 @@ def obtaindl(update, context):
                         #print(source['name'] + "\n")
                         msg += source['source']['name']
                         if source.get("subSource") is not None:
-                            msg += source['subSource'])
+                            msg +=  " " + source['subSource']
                         msg += "\n"
                     update.message.reply_text("Rarity: " + element['rarity'] + "\n" + msg))
                     break
