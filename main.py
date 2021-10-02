@@ -121,7 +121,7 @@ def update_links ():
         page_num += 1
 
     with open("cards.json", "w") as outfile:
-        json.dump(cards, outfile)
+        json.dump(cards_dl, outfile)
 
 """Commands"""
 
