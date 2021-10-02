@@ -500,7 +500,7 @@ def guide(update, context):
     elif (len(user_says)<2):
         return 1
 
-    url= url_search
+    url= "https://www.duellinksmeta.com/api/v1/articles?search=" + user_says + "&sort=-date"
     page = requests.get(url)
     if page.status_code == 404:
         update.message.reply_text("Updating links... Try again in a minute")
@@ -510,9 +510,8 @@ def guide(update, context):
         articles = json.loads(page.text)
         msg = ""
         for x in articles:
-            if(x['category']== "guide"):
-                if (user_says.lower() in x['title'].lower()):
-                    msg += "https://www.duellinksmeta.com" + x['url'] + "\n"
+            if (user_says.lower() in x['title'].lower()):
+                msg += "https://www.duellinksmeta.com" + x['url'] + "\n"
         if(len(msg)==0):
             update.message.reply_text("Can't find a guide!")
         else:
