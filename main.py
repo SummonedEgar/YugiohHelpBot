@@ -321,11 +321,11 @@ def obtaindl(update, context):
     else :
         user_says = update.message.text
 
-    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says.lower() + "&format=Duel%20Links" + "&language=" + lang
+    url="https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + user_says.lower() + "&language=" + lang
 
     page = requests.get(url)
     if page.status_code != 200 :
-        update.message.reply_text("Card probably isn't in Duel Links, try /obtain")
+        update.message.reply_text("Are you sure this card is in Yu-Gi-Oh?")
     else :
         card = json.loads(page.text)
         id = card['data'][0]['id']
@@ -333,7 +333,7 @@ def obtaindl(update, context):
 
         page = requests.get(url)
         if page.status_code != 200 :
-            update.message.reply_text("ERROR")
+            update.message.reply_text("Card probably isn't in Duel Links, try /obtain")
         else :
             card = json.loads(page.text)
             name = card['data'][0]['name']
