@@ -36,7 +36,7 @@ def restricted(func):
     def wrapped(update, context, *args, **kwargs):
         user_id = update.effective_user.id
 
-        if user_id not in LIST_OF_ADMINS:
+        if user_id != LIST_OF_ADMINS or user_id != ADMIN2:
             print("Unauthorized access denied for {}.".format(user_id))
             return
         return func(update, context, *args, **kwargs)
@@ -139,7 +139,8 @@ with open('/home/pi/YugiohHelpBot/url_cardObtain.txt') as f:
 with open('/home/pi/YugiohHelpBot/bottoken.txt') as f:
     token = f.readline().strip()
 with open('/home/pi/YugiohHelpBot/admin.txt') as f:
-    LIST_OF_ADMINS = f.read().splitlines()
+    LIST_OF_ADMINS = f.readline().strip()
+    ADMIN2 = f.readline().strip()
 with open('/home/pi/YugiohHelpBot/cards.json') as f:
     cards_dl = json.load(f)
 
