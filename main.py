@@ -36,7 +36,7 @@ def restricted(func):
     def wrapped(update, context, *args, **kwargs):
         user_id = update.effective_user.id
 
-        if user_id != LIST_OF_ADMINS or user_id != ADMIN2:
+        if user_id != LIST_OF_ADMINS and user_id != ADMIN2:
             print("Unauthorized access denied for {}.".format(user_id))
             return
         return func(update, context, *args, **kwargs)
