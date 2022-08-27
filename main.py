@@ -139,7 +139,7 @@ with open('/home/pi/YugiohHelpBot/url_cardObtain.txt') as f:
 with open('/home/pi/YugiohHelpBot/bottoken.txt') as f:
     token = f.readline().strip()
 with open('/home/pi/YugiohHelpBot/admin.txt') as f:
-    LIST_OF_ADMINS = f.readlines().strip()
+    LIST_OF_ADMINS = f.readlines()
 with open('/home/pi/YugiohHelpBot/cards.json') as f:
     cards_dl = json.load(f)
 
